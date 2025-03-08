@@ -67,9 +67,14 @@ void dealloc(Node* head)
 //   function object struct declarations
 // -----------------------------------------------
 
-
-
-
+//create the functor that removes odd numbers
+struct RemoveOdd
+{
+  bool operator()(int value)
+  {
+    return value % 2 != 0;//returns true for all odd numbers
+  }
+};
 
 int main(int argc, char* argv[])
 {
@@ -84,12 +89,28 @@ int main(int argc, char* argv[])
     Node* head = readList(argv[1]);
     cout << "Original list: ";
     print(head);
-
     // Test out your linked list code
-
-
-
-    
+    Node* smaller = nullptr;
+    Node* larger = nullptr;
+    llpivot(head, smaller, larger, 9);
+    cout << "Smaller: ";
+    print(smaller);
+    cout << endl;
+    cout << "Larger: ";
+    print(larger);
+    cout << endl;
+    //now test llfilter function
+    Node* llfilteredList1 = llfilter(smaller, RemoveOdd());
+    cout << "llfilter test- Filtered List1: ";
+    print(llfilteredList1);
+    cout << endl;
+    Node* llfilteredList2 = llfilter(larger, RemoveOdd());
+    cout << "llfilter test- Filtered List2: ";
+    print(llfilteredList2);
+    cout << endl;
+    cout << "Original list destroyed? ";
+    print(head);
+    cout << "Done. " << endl;
     return 0;
 
 }
