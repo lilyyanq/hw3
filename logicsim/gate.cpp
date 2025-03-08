@@ -88,3 +88,22 @@ Event* Or2Gate::update(uint64_t current_time)
 	}
   return e;
 }
+
+NotGate :: NotGate(Wire* input, Wire* output) : Gate(1, output)
+{
+  wireInput(0, input); //a Not gate only has one input
+}
+
+Event* NotGate::update(uint64_t current_time)
+{
+  char input_state = m_inputs[0]->getState();
+  char new_state = (input_state == '0') ? '1' : (input_state == '1') ? '0' : 'X';
+  Event* e = nullptr;
+  if(new_state != m_current_state)
+  {
+    m_current_state = new_state;
+    uint64_t next = current_time + m_delay;
+    e = new Event { next, m_output, new_state };
+  }
+  return e;
+}
